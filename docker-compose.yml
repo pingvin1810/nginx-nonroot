@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app1:
+    build: .
+    networks:
+      - backend
+    ports:
+      - "8081:80"
+
+  app2:
+    build: .
+    networks:
+      - backend
+    ports:
+      - "8082:80"
+
+  proxy:
+    build: .
+    networks:
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./index.html:/usr/share/nginx/html/index.html
+
+networks:
+  backend:
+    driver: bridge
